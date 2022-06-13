@@ -7,7 +7,9 @@ import Order from "./Order.js";
 import About from "./About.js";
 import Login from "./Login.js";
 import SignUp from "./SignUp";
+import LogOut from "./LogOut.js";
 import PageNotFound from "./PageNotFound.js";
+import Protected from "./Protected.js";
 export default class NavbarComp extends Component {
   render() {
     return (
@@ -16,12 +18,12 @@ export default class NavbarComp extends Component {
           <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
               <Navbar.Brand as={Link} to={"/home"}>
-                ShopKart
+                GrabKart
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link as={Link} to={"/home"}>
+                  <Nav.Link eventKey={1} as={Link} to={"/home"}>
                     Home
                   </Nav.Link>
                   <Nav.Link as={Link} to={"/product"}>
@@ -38,8 +40,11 @@ export default class NavbarComp extends Component {
                   <Nav.Link as={Link} to="/login">
                     Login
                   </Nav.Link>
-                  <Nav.Link eventKey={2} as={Link} to="/signup">
+                  <Nav.Link as={Link} to="/signup">
                     SignUp
+                  </Nav.Link>
+                  <Nav.Link eventKey={1} as={Link} to="/logout">
+                    Logout
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>
@@ -51,11 +56,15 @@ export default class NavbarComp extends Component {
           <Routes>
             <Route path="/login" element={<Login />} exact />
             <Route path="/signup" element={<SignUp />} exact />
-            <Route path="/home" element={<Home />} exact />
-            <Route path="/product" element={<Product />} exact />
-            <Route path="/order" element={<Order />} exact />
-            <Route path="/about" element={<About />} exact />
-            <Route path="/" element={<Home />} exact />
+            <Route path="/logout" element={<LogOut />} exact  />
+            <Route path="/home" element={<Protected cmp={Home} exact />} />
+            <Route
+              path="/product"
+              element={<Protected cmp={Product} exact />}
+            />
+            <Route path="/order" element={<Protected cmp={Order} exact />} />
+            <Route path="/about" element={<Protected cmp={About} exact />} />
+            <Route path="/" element={<Login />} exact />
             <Route path="*" element={<PageNotFound />} exact />
           </Routes>
         </div>
